@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->PointButton->setEnabled(false);
     ui->SquareButton->setEnabled(false);
     ui->SparyButton->setEnabled(false);
+    ui->EraserButton->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -43,6 +44,7 @@ void MainWindow::on_OpenImageButton_clicked()
     ui->PointButton->setEnabled(true);
     ui->SquareButton->setEnabled(true);
     ui->SparyButton->setEnabled(true);
+    ui->EraserButton->setEnabled(true);
     _time= QTime::currentTime();
     qsrand(_time.msec()+_time.second()*1000);
 }
@@ -119,6 +121,13 @@ void MainWindow::Draw(QMouseEvent *event)
             _imageLabel->setPixmap(QPixmap::fromImage(*_drawer->_editedImage));
 
         }
+        else if(_setting == Eraser)
+        {
+            bool ok;
+            _drawer->DrawSquare(event->x(),event->y(),255,255,255);
+            _imageLabel->setPixmap(QPixmap::fromImage(*_drawer->_editedImage));
+
+        }
         else if(_setting == Spray)
         {
             bool ok;
@@ -172,6 +181,12 @@ void MainWindow::on_SparyButton_clicked()
     _setting = Spray;
     ui->PointButton->setChecked(false);
     ui->SquareButton->setChecked(false);
+}
+void MainWindow::on_EraserButton_clicked()
+{
+    _setting = Eraser;
+    ui->PointButton->setChecked(false);
+    ui->SparyButton->setChecked(false);
 }
 
 void MainWindow::on_ResetButton_clicked()

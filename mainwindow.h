@@ -31,7 +31,8 @@ public:
         ChangeColor,
         Point,
         Square,
-        Spray
+        Spray,
+        Eraser
     };
 
 private slots:
@@ -49,6 +50,8 @@ private slots:
     void on_SquareButton_clicked();
 
     void on_SparyButton_clicked();
+
+    void on_EraserButton_clicked();
 
     void on_ResetButton_clicked();
 
