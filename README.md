@@ -4,8 +4,11 @@ this is our first project in digital signal processing.
 
 ## team member
 Chen Kewei
+
 Li Mingjiang
+
 Li Yingyue
+
 Zhang Bingyi
 
 ## function of the painter
