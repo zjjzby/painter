@@ -24,3 +24,6 @@ the version of opencv has not decided yet.
 1. quick start of QT: http://doc.qt.io/qt-5/gettingstarted.html
 2. a demo: http://doc.qt.io/qt-5/qtwidgets-mainwindows-application-example.html
 3. have to set the environment of vs2015 and QT: https://my.oschina.net/jthmath/blog/640227
+
+## some video about how to design ui with qt
+1. scroll area: https://www.youtube.com/watch?v=QPbkJt2CYvk
