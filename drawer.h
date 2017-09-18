@@ -1,16 +1,11 @@
-#ifndef DRAWER
-#define DRAWER
+#ifndef DRAWER_H
+#define DRAWER_H
 
 #include <QMainWindow>
 #include <QImage>
-#include <QPixmap>
-#include <QLabel>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QPainter>
-#include <QInputDialog>
-#include <QMouseEvent>
-#include <QTime>
+#include "opencv2/opencv.hpp"
+
+using namespace cv;
 
 #define OFFSET 23
 
@@ -22,6 +17,7 @@ public:
     QImage *_originImage;
     QImage *_editedImage;
     QImage *_greyImage;
+    QImage *_blurImage;
     int _imgWidth;
     int _imgHeight;
     Drawer(){}
@@ -34,8 +30,11 @@ public:
     void DrawPoint(int pos_x, int pos_y, int R, int G, int B);
     void DrawSquare(int pos_x, int pos_y, int R, int G, int B);
     void DrawSpary(int pos_x, int pos_y, int R, int G, int B);
+    void GetGaussianBlur();
 
 private:
+    cv::Mat QImage2Mat(QImage img);
+    QImage Mat2QImage(cv::Mat mat);
 };
 
 #endif // DRAWER

@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 
 
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -18,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->SquareButton->setEnabled(false);
     ui->SparyButton->setEnabled(false);
     ui->EraserButton->setEnabled(false);
+    ui->blurButton->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -45,6 +45,7 @@ void MainWindow::on_OpenImageButton_clicked()
     ui->SquareButton->setEnabled(true);
     ui->SparyButton->setEnabled(true);
     ui->EraserButton->setEnabled(true);
+    ui->blurButton->setEnabled(true);
     _time= QTime::currentTime();
     qsrand(_time.msec()+_time.second()*1000);
 }
@@ -159,6 +160,12 @@ void MainWindow::on_RGBToGreyButton_clicked()
         ui->SparyButton->setEnabled(true);
     }
 
+}
+
+void MainWindow::on_blurButton_clicked()
+{
+    _drawer->GetGaussianBlur();
+    _imageLabel->setPixmap(QPixmap::fromImage(*_drawer->_blurImage));
 }
 
 void MainWindow::on_PointButton_clicked()

@@ -1,6 +1,15 @@
-﻿#include "drawer.h"
+﻿#include <QPixmap>
+#include <QLabel>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QPainter>
+#include <QInputDialog>
+#include <QMouseEvent>
+#include <QTime>
 
+#include "drawer.h"
 
+using namespace cv;
 
 void Drawer::SetImage(QMainWindow *MainWindow)
 {
@@ -127,4 +136,77 @@ void Drawer::RGBToGrey()
         _isGrey = false;
     }
 
+}
+
+void Drawer::GetGaussianBlur()
+{
+    Mat img = QImage2Mat(*_editedImage);
+    cv::GaussianBlur(img,img,Size(),1.0);
+    _blurImage = new QImage(Mat2QImage(img));
+}
+
+cv::Mat Drawer::QImage2Mat(QImage img)
+{
+    cv::Mat mat;
+    //qDebug() << img.format();
+    switch(img.format())
+    {
+    case QImage::Format_ARGB32:
+    case QImage::Format_RGB32:
+    case QImage::Format_ARGB32_Premultiplied:
+        mat = cv::Mat(img.height(), img.width(), CV_8UC4, (void*)img.constBits(), img.bytesPerLine());
+        break;
+    case QImage::Format_RGB888:
+        mat = cv::Mat(img.height(), img.width(), CV_8UC3, (void*)img.constBits(), img.bytesPerLine());
+        cv::cvtColor(mat, mat, CV_BGR2RGB);
+        break;
+    case QImage::Format_Indexed8:
+        mat = cv::Mat(img.height(), img.width(), CV_8UC1, (void*)img.constBits(), img.bytesPerLine());
+        break;
+    }
+    return mat;
+}
+
+QImage Drawer::Mat2QImage(Mat mat)
+{
+    if(mat.type() == CV_8UC1)
+    {
+        QImage image(mat.cols, mat.rows, QImage::Format_Indexed8);
+        image.setColorCount(256);
+        for(int i = 0; i < 256; i++)
+        {
+            image.setColor(i, qRgb(i, i, i));
+        }
+        uchar *pSrc = mat.data;
+        for(int row = 0; row < mat.rows; row ++)
+        {
+            uchar *pDest = image.scanLine(row);
+            memcpy(pDest, pSrc, mat.cols);
+            pSrc += mat.step;
+        }
+        return image;
+    }
+    // 8-bits unsigned, NO. OF CHANNELS = 3
+    else if(mat.type() == CV_8UC3)
+    {
+        // Copy input Mat
+        const uchar *pSrc = (const uchar*)mat.data;
+        // Create QImage with same dimensions as input Mat
+        QImage image(pSrc, mat.cols, mat.rows, mat.step, QImage::Format_RGB888);
+        return image.rgbSwapped();
+    }
+    else if(mat.type() == CV_8UC4)
+    {
+        //qDebug() << "CV_8UC4";
+        // Copy input Mat
+        const uchar *pSrc = (const uchar*)mat.data;
+        // Create QImage with same dimensions as input Mat
+        QImage image(pSrc, mat.cols, mat.rows, mat.step, QImage::Format_ARGB32);
+        return image.copy();
+    }
+    else
+    {
+        //qDebug() << "ERROR: Mat could not be converted to QImage.";
+        return QImage();
+    }
 }

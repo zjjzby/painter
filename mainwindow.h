@@ -11,6 +11,7 @@
 #include <QInputDialog>
 #include <QMouseEvent>
 #include <QTime>
+
 #include "drawer.h"
 
 namespace Ui {
@@ -32,7 +33,8 @@ public:
         Point,
         Square,
         Spray,
-        Eraser
+        Eraser,
+        Blur
     };
 
 private slots:
@@ -56,6 +58,8 @@ private slots:
     void on_ResetButton_clicked();
 
     void on_SizeSlider_sliderMoved(int position);
+
+    void on_blurButton_clicked();
 
 private:
 

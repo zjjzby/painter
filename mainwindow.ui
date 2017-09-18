@@ -282,6 +282,19 @@
      <string>橡皮擦</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="blurButton">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>0</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>柔和</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
